@@ -22,9 +22,8 @@ while read pdf; do
 			# convert pdf to text, grep the keyword and store the result in the keywords directory
 			pdftotext "$pdf" /dev/stdout | grep -H -- "$key" > "./keys/$key/`(basename "$pdf")`.txt"
 			# if filesize is 0 (keyword not found), remove file
-			if [! -s "./keys/$key/`(basename "$pdf")`.txt"]; then
-				rm "./keys/$key/`(basename "$pdf")`.txt"
-			fi
 		done
 	fi
 done
+# delete all empty files where keyword has not been found
+find ./keys/ -type f -empty -delete
